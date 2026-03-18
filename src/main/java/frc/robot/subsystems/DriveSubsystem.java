@@ -105,8 +105,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_backRight.setDesiredState(states[3]);
   }
 
-  public Rotation2d getHeading() {
+  public Rotation2d getGyroHeading() {
     return m_gyro.getRotation2d();
+  }
+
+  public Rotation2d getHeading() {
+    return this.getPose2d().getRotation();
   }
 
   public void zeroHeading() {
@@ -138,7 +142,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    this.odometry.update(getHeading(), getModulePositions());
+    this.odometry.update(this.getGyroHeading(), this.getModulePositions());
 
     field.setRobotPose(this.getPose2d());
     SmartDashboard.putData("field", field);
