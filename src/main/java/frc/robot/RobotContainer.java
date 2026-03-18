@@ -9,8 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
-  private final XboxController m_driverController =
-      new XboxController(Constants.OIConstants.kDriverControllerPort);
+  private final XboxController m_driverController = new XboxController(Constants.OIConstants.kDriverControllerPort);
 
   public RobotContainer() {
     configureDefaultCommands();
@@ -19,23 +18,25 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     m_drive.setDefaultCommand(
         new RunCommand(() -> {
-          double xInput = -m_driverController.getLeftY();
-          double yInput = -m_driverController.getLeftX();
+          double xInput = -m_driverController.getLeftX();
+          double yInput = -m_driverController.getLeftY();
           double rotInput = -m_driverController.getRightX();
 
           xInput = m_drive.applyDeadband(xInput);
           yInput = m_drive.applyDeadband(yInput);
           rotInput = m_drive.applyDeadband(rotInput);
           new JoystickButton(m_driverController, XboxController.Button.kY.value)
-    .onTrue(new InstantCommand(m_drive::zeroHeading, m_drive));
+              .onTrue(new InstantCommand(m_drive::zeroHeading, m_drive));
 
-          double xSpeed = xInput * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-          double ySpeed = yInput * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+          new JoystickButton(m_driverController, XboxController.Button.kX.value)
+              .onTrue(new InstantCommand(m_drive::setZero, m_drive));
+          // Field is X axis down the field, Y axis along the alliance station
+          double xSpeed = yInput * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
+          double ySpeed = xInput * Constants.DriveConstants.kMaxSpeedMetersPerSecond;
           double rot = rotInput * Constants.DriveConstants.kMaxAngularSpeedRadPerSec;
 
           m_drive.drive(xSpeed, ySpeed, rot, true);
-        }, m_drive)
-    );
+        }, m_drive));
   }
 
   public Command getAutonomousCommand() {
