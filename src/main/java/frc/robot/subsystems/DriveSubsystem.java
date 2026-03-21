@@ -65,7 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
-  getHeading(), this.getModulePositions(),
+  getGyroHeading(), this.getModulePositions(),
    Pose2d.kZero
   );
 

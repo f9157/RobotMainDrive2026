@@ -48,10 +48,10 @@ public final class Constants {
     public static final int kBackLeftAbsEncoderPort = 2;
     public static final int kBackRightAbsEncoderPort = 3;
 
-    public static final double kFrontLeftAbsOffset = 0.0;
-    public static final double kFrontRightAbsOffset = 0.68;
-    public static final double kBackLeftAbsOffset = 0.21;
-    public static final double kBackRightAbsOffset = 0.54;
+    public static final double kFrontLeftAbsOffset = 0.00;
+    public static final double kFrontRightAbsOffset = 0.688;
+    public static final double kBackLeftAbsOffset = 0.238;
+    public static final double kBackRightAbsOffset = 0.617;
 
     public static final boolean kFrontLeftDriveInverted = true;
     public static final boolean kFrontLeftTurnInverted = false;
