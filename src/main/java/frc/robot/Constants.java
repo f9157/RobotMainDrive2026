@@ -11,8 +11,8 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Robot geometry
-    public static final double kTrackWidthMeters = 0.53;
-    public static final double kWheelBaseMeters = 0.53;
+    public static final double kTrackWidthMeters = 0.66;
+    public static final double kWheelBaseMeters = 0.66;
 
     public static final Translation2d kFrontLeftLocation =
         new Translation2d(kWheelBaseMeters / 2.0,  kTrackWidthMeters / 2.0);
@@ -81,5 +81,11 @@ public final class Constants {
         kTurningPositionFactor / 60.0;
 
     public static final double kTurningP = 4.0;
+  }
+
+  public static final class FlywheelConstants {
+    public static final int kLeftMainFlywheelCanId = 2;
+
+    public static final int kRightFollowFlywheelCanId = 4;
   }
 }

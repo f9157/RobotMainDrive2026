@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 
 public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
+  private final FlywheelSubsystem m_flywheels = new FlywheelSubsystem();
   private final XboxController m_driverController = new XboxController(Constants.OIConstants.kDriverControllerPort);
 
   public RobotContainer() {
