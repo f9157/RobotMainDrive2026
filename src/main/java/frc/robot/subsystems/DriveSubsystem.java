@@ -129,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double applyDeadband(double value) {
-    return MathUtil.applyDeadband(value, Constants.OIConstants.kDeadband);
+    return MathUtil.applyDeadband(value, Constants.IOConstants.kDeadband);
   }
 
   public void setZero() {

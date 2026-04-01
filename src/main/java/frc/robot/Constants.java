@@ -4,8 +4,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class Constants {
-  public static final class OIConstants {
+  public static final class IOConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorCOntrollerPort = 1;
     public static final double kDeadband = 0.08;
   }
 
