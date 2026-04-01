@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final Pigeon2 m_gyro = new Pigeon2(DriveConstants.kPigeonIMU);
 
 
-  private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
+  public SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
   getHeading(), this.getModulePositions(),
    Pose2d.kZero
   );
