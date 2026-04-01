@@ -6,7 +6,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-public class SparkMotor implements PidMotor, MotorDiag {
+public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
 
     SparkMax motor;
 
@@ -70,5 +70,13 @@ public class SparkMotor implements PidMotor, MotorDiag {
 
     public double getCurrent() {
         return this.motor.getOutputCurrent();
+    }
+
+    public void stop() {
+        this.motor.stopMotor();
+    }
+
+    public void follow(int otherCanId, boolean invert) {
+        
     }
 }

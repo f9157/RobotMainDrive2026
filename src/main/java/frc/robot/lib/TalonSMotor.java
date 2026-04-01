@@ -1,10 +1,12 @@
 package frc.robot.lib;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.units.measure.Angle;
@@ -12,7 +14,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TalonSMotor implements PidMotor, MotorDiag {
+public class TalonSMotor implements PidMotor, MotorDiag, MotorFollow {
     
     private int canId;
 
@@ -80,6 +82,22 @@ public class TalonSMotor implements PidMotor, MotorDiag {
 
     public int getDeviceId() {
         return this.canId;
+    }
+
+    public void follow(int otherCanId, boolean invert) {
+
+        MotorAlignmentValue mAlign;
+        if (invert) {
+            mAlign = MotorAlignmentValue.Opposed;
+        } else {
+            mAlign = MotorAlignmentValue.Aligned;
+        }
+
+        this.motor.setControl(new Follower(otherCanId, mAlign));
+    }
+
+    public void stop() {
+        this.motor.stopMotor();
     }
 
 

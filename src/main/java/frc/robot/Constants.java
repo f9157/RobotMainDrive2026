@@ -153,5 +153,11 @@ public final class Constants {
         public static final int kWheelFollowMotorCanId = 12;
 
         public static final StaticPID WheelPID = new StaticPID(0,0,0,0,0,0,0);
+
+        public static final double kIntakeRetractPosition = 0;
+
+        public static final double kIntakeDeployPosition = 0;
+
+        public static final double kIntakeVelocity = 0;
     }
 }

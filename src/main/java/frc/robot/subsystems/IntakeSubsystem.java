@@ -1,53 +1,54 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFXS;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.lib.SparkMotor;
+import frc.robot.lib.TalonSMotor;
 
 public class IntakeSubsystem extends SubsystemBase {
     
-    TalonFXS deployMotor;
+    TalonSMotor deployMotor;
 
-    SparkMax wheelMain;
-    SparkMax wheelFollow;
+    SparkMotor wheelMain;
+    SparkMotor wheelFollow;
 
 
     public IntakeSubsystem() {
 
 
-        this.deployMotor = new TalonFXS(IntakeConstants.kDeployMotorCanId);
+        this.deployMotor = new TalonSMotor(IntakeConstants.kDeployMotorCanId);
 
-        this.wheelMain = new SparkMax(IntakeConstants.kWheelMainMotorCanId, MotorType.kBrushless);
+        this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, false);
 
-        this.wheelFollow = new SparkMax(IntakeConstants.kWheelFollowMotorCanId, MotorType.kBrushless);
+        this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, false);
 
+        this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
+        
 
     }
 
 
 
     public void retractIntake() {
-
+        this.deployMotor.setPosition(IntakeConstants.kIntakeRetractPosition);
     }
 
     public void deployIntake() {
-
+        this.deployMotor.setPosition(IntakeConstants.kIntakeDeployPosition);
     }
 
     public void intake() {
-
+        this.wheelMain.setVelocity(IntakeConstants.kIntakeVelocity);
     }
 
     public void stopIntaking() {
-
+        this.wheelMain.stop();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Intake/deploy_position", )
+        this.deployMotor.postMotorDiagnostics();
+        this.wheelMain.postMotorDiagnostics();
     }
 
 }

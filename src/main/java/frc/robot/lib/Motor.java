@@ -9,4 +9,6 @@ public interface Motor {
     public void setDutyOut(double ref);
 
     public double getDutyOut();
+
+    public void stop();
 }
