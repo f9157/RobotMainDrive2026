@@ -3,11 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.lib.SparkMotor;
-import frc.robot.lib.TalonSMotor;
+import frc.robot.lib.TalonFXSMotor;
 
 public class IntakeSubsystem extends SubsystemBase {
     
-    TalonSMotor deployMotor;
+    TalonFXSMotor deployMotor;
 
     SparkMotor wheelMain;
     SparkMotor wheelFollow;
@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
 
 
-        this.deployMotor = new TalonSMotor(IntakeConstants.kDeployMotorCanId);
+        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId);
 
         this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, false);
 

@@ -14,7 +14,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TalonSMotor implements PidMotor, MotorDiag, MotorFollow {
+public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
     
     private int canId;
 
@@ -31,7 +31,7 @@ public class TalonSMotor implements PidMotor, MotorDiag, MotorFollow {
 
     private MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(0);
 
-    public TalonSMotor(int canId) {
+    public TalonFXSMotor(int canId) {
         this.canId = canId;
         this.motor = new TalonFXS(canId);
         this.position = this.motor.getPosition();

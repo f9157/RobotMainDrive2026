@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.FlywheelConstants;
-import frc.robot.lib.TalonSMotor;
+import frc.robot.lib.TalonFXSMotor;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -14,15 +14,15 @@ import com.ctre.phoenix6.configs.SlotConfigs;
 
 public class FlywheelSubsystem extends SubsystemBase {
 
-    TalonSMotor main;
-    TalonSMotor follower;
+    TalonFXSMotor main;
+    TalonFXSMotor follower;
 
     StatusSignal<AngularVelocity> velocity;
 
     public FlywheelSubsystem() {
 
 
-        this.main = new TalonSMotor(FlywheelConstants.kLeftMainFlywheelCanId);
+        this.main = new TalonFXSMotor(FlywheelConstants.kLeftMainFlywheelCanId);
 
 
         SlotConfigs slot = new SlotConfigs();
@@ -36,7 +36,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         config.apply(slot);
         config.apply(mmConfig);
 
-        this.follower = new TalonSMotor(FlywheelConstants.kRightFollowFlywheelCanId);
+        this.follower = new TalonFXSMotor(FlywheelConstants.kRightFollowFlywheelCanId);
 
         this.follower.follow(FlywheelConstants.kLeftMainFlywheelCanId, true);
 
