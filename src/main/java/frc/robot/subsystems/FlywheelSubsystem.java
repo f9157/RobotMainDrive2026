@@ -1,57 +1,56 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.ClosedLoopConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.ResetMode;
-import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.FlywheelConstants;
+
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.SlotConfigs;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 public class FlywheelSubsystem extends SubsystemBase {
 
-    SparkMax main;
-    SparkMax follower;
+    // SparkMax main;
+    TalonFXS main;
+    // SparkMax follower;
+    TalonFXS follower;
 
-    SparkClosedLoopController controller;
-
-    RelativeEncoder encoder;
+    StatusSignal<AngularVelocity> velocity;
 
     public FlywheelSubsystem() {
 
-        ClosedLoopConfig flywheelPID = new ClosedLoopConfig().pid(0.0001, 0, 0)
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
 
-        SparkMaxConfig flywheelConfig = new SparkMaxConfig();
-        flywheelConfig.apply(flywheelPID);
-        flywheelConfig
-                .idleMode(IdleMode.kBrake)
-                .smartCurrentLimit(50);
-
-        this.main = new SparkMax(Constants.FlywheelConstants.kLeftMainFlywheelCanId, MotorType.kBrushless);
-
-        this.main.configure(flywheelConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-        this.follower = new SparkMax(Constants.FlywheelConstants.kRightFollowFlywheelCanId, MotorType.kBrushless);
+        this.main = new TalonFXS(FlywheelConstants.kLeftMainFlywheelCanId);
 
 
-        flywheelConfig.follow(Constants.FlywheelConstants.kLeftMainFlywheelCanId, true);
-        this.follower.configure(flywheelConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        SlotConfigs slot = new SlotConfigs();
 
-        this.controller = this.main.getClosedLoopController();
-        this.encoder = this.main.getEncoder();
+        MotionMagicConfigs mmConfig = Constants.FlywheelConstants.FlywheelPID.applyTalon(slot);
+
+        var config = this.main.getConfigurator();
+        
+        config.apply(slot);
+        config.apply(mmConfig);
+
+        this.velocity = this.main.getVelocity();
+
+        this.follower = new TalonFXS(FlywheelConstants.kRightFollowFlywheelCanId);
+
+        this.follower.setControl(new Follower(FlywheelConstants.kLeftMainFlywheelCanId, MotorAlignmentValue.Opposed));
+
+        config.apply(slot);
+        config.apply(mmConfig);
     }
 
-    public void setFlywheel(double rpm) {
-        this.controller.setSetpoint(rpm, ControlType.kVelocity);
+    public void setFlywheel(double rotationsPerSecond) {
+        this.main.setControl(new MotionMagicVelocityVoltage(rotationsPerSecond));
     }
 
 
@@ -59,13 +58,14 @@ public class FlywheelSubsystem extends SubsystemBase {
         this.main.stopMotor();
     }
 
-    public double getFlywheelRPM() {
-        return this.encoder.getVelocity();
+    public double getFlywheelRotationsPerSecond() {
+        this.velocity.refresh();
+        return this.velocity.getValueAsDouble();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Flywheel/RPM", this.getFlywheelRPM());
+        SmartDashboard.putNumber("Flywheel/RPS", this.getFlywheelRotationsPerSecond());
     }
 
 }
