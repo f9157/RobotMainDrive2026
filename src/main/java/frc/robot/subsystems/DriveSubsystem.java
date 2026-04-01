@@ -65,7 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
-  getHeading(), this.getModulePositions(),
+  getGyroHeading(), this.getModulePositions(),
    Pose2d.kZero
   );
 
@@ -129,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double applyDeadband(double value) {
-    return MathUtil.applyDeadband(value, Constants.OIConstants.kDeadband);
+    return MathUtil.applyDeadband(value, Constants.IOConstants.kDeadband);
   }
 
   public void setZero() {
