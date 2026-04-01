@@ -76,6 +76,10 @@ public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
         this.motor.stopMotor();
     }
 
+    public void setEncoderPosition(double ref) {
+       this.encoder.setPosition(ref); 
+    }
+
     public void follow(int otherCanId, boolean invert) {
         
     }

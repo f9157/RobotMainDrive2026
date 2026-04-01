@@ -96,6 +96,10 @@ public class TalonSMotor implements PidMotor, MotorDiag, MotorFollow {
         this.motor.setControl(new Follower(otherCanId, mAlign));
     }
 
+    public void setEncoderPosition(double ref) {
+        this.motor.setPosition(ref);
+    }
+
     public void stop() {
         this.motor.stopMotor();
     }

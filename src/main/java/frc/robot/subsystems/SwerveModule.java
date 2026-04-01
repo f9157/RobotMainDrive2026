@@ -1,38 +1,22 @@
 package frc.robot.subsystems;
-
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.PersistMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.ClosedLoopConfig;
-import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.lib.SparkMotor;
 
 public class SwerveModule {
-  private final SparkMax m_driveMotor;
-  private final SparkMax m_turnMotor;
-
-  private final RelativeEncoder m_driveEncoder;
-  private final RelativeEncoder m_turnEncoder;
-
-  private final SparkClosedLoopController m_driveController;
-  private final SparkClosedLoopController m_turnController;
+  private final SparkMotor m_driveMotor;
+  private final SparkMotor m_turnMotor;
 
   private final AnalogEncoder m_absoluteEncoder;
   private final double m_absoluteEncoderOffset;
@@ -51,14 +35,8 @@ public class SwerveModule {
       String name) {
 
     this.name = name;
-    m_driveMotor = new SparkMax(driveCanId, MotorType.kBrushless);
-    m_turnMotor = new SparkMax(turnCanId, MotorType.kBrushless);
-
-    m_driveEncoder = m_driveMotor.getEncoder();
-    m_turnEncoder = m_turnMotor.getEncoder();
-
-    m_driveController = m_driveMotor.getClosedLoopController();
-    m_turnController = m_turnMotor.getClosedLoopController();
+    m_driveMotor = new SparkMotor(driveCanId, false);
+    m_turnMotor = new SparkMotor(turnCanId, false);
 
     m_absoluteEncoder = new AnalogEncoder(absoluteEncoderPort);
     m_absoluteEncoderOffset = absoluteEncoderOffsetRad;
@@ -84,11 +62,11 @@ public class SwerveModule {
     //     .positionConversionFactor(DriveConstants.kTurningPositionFactor)
     //     .velocityConversionFactor(DriveConstants.kTurningVelocityFactor);
 
-    m_driveMotor.configure(
+    m_driveMotor.getInner().configure(
         driveConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
-    m_turnMotor.configure(
+    m_turnMotor.getInner().configure(
         turnConfig,
         ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
@@ -99,15 +77,15 @@ public class SwerveModule {
   }
 
   public double getTurnMotorPosition() {
-    return m_turnEncoder.getPosition();
+    return this.m_turnMotor.getPosition();
   }
 
   public double getDriveMotorPosition() {
-    return m_driveEncoder.getPosition();
+    return this.m_driveMotor.getPosition();
   }
 
   public void zero() {
-    m_turnEncoder.setPosition(getAbsoluteEncoderRotation() * DriveConstants.kTurningMotorGearRatio);
+    this.m_turnMotor.setPosition(getAbsoluteEncoderRotation() * DriveConstants.kTurningMotorGearRatio);
   }
 
   public void setZero() {
@@ -123,7 +101,7 @@ public class SwerveModule {
   }
 
   public double getDistance() {
-    return (m_driveEncoder.getPosition() / DriveConstants.kDriveMotorGearRatio) * (Math.PI * DriveConstants.kWheelDiameterMeters);
+    return (this.m_driveMotor.getPosition() / DriveConstants.kDriveMotorGearRatio) * (Math.PI * DriveConstants.kWheelDiameterMeters);
   }
 
   public SwerveModulePosition getModulePosition() {
@@ -133,7 +111,7 @@ public class SwerveModule {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromRotations(m_turnEncoder.getPosition() / DriveConstants.kTurningMotorGearRatio);
+    return Rotation2d.fromRotations(this.m_turnMotor.getPosition() / DriveConstants.kTurningMotorGearRatio);
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
@@ -145,7 +123,7 @@ public class SwerveModule {
 
   private void setRotation(Rotation2d angle) {
     double turnOutput = angle.getRotations() * DriveConstants.kTurningMotorGearRatio;
-    m_turnMotor.getClosedLoopController().setSetpoint(turnOutput, ControlType.kPosition);
+    m_turnMotor.setPosition(turnOutput);
   }
 
   private void setDriveVelocity(double metersPerSecond) {
@@ -153,13 +131,13 @@ public class SwerveModule {
 
     double driveOutput = driveRotationsPerSecond
         * DriveConstants.kDriveMotorGearRatio * 60;
-    m_driveMotor.getClosedLoopController().setSetpoint(driveOutput, ControlType.kVelocity);
+    m_driveMotor.setVelocity(driveOutput);
 
   }
 
   public void stop() {
-    m_driveMotor.stopMotor();
-    m_turnMotor.stopMotor();
+    m_driveMotor.stop();
+    m_turnMotor.stop();
   }
 
   private String moduleDiagnosticKey(String key) {
