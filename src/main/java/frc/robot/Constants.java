@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Transform3d;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -129,6 +130,10 @@ public final class Constants {
             return new MotionMagicConfigs().withMotionMagicAcceleration(maxAccel).withMotionMagicCruiseVelocity(maxVel);
         }
 
+        public void applySparkMax(SparkMax controller) {
+
+        }
+
     }
 
     public static final class FlywheelConstants {
@@ -137,5 +142,16 @@ public final class Constants {
         public static final int kRightFollowFlywheelCanId = 4;
 
         public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
+    }
+
+    public static final class IntakeConstants {
+        public static final int kDeployMotorCanId = 10;
+
+        public static final StaticPID DeployPID = new StaticPID(0,0,0,0.13,0.4,30,30);
+
+        public static final int kWheelMainMotorCanId = 11;
+        public static final int kWheelFollowMotorCanId = 12;
+
+        public static final StaticPID WheelPID = new StaticPID(0,0,0,0,0,0,0);
     }
 }
