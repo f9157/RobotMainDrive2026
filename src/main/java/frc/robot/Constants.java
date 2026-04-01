@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
@@ -90,5 +91,9 @@ public final class Constants {
     public static final double maxFlatDistanceMeters = 2;
 
     public static final double expMultiplier = 1;
+
+    public static final Transform3d kLeftCameraOffset = Transform3d.kZero;
+
+    public static final Transform3d kRightCameraOffset = Transform3d.kZero;
   }
 }

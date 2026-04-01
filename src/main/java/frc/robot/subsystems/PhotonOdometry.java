@@ -34,13 +34,17 @@ public class PhotonOdometry extends SubsystemBase {
     private PhotonPoseEstimator photonEst;
     private PhotonCamera cam;
 
-    PhotonOdometry(String name, Transform3d offset, DriveSubsystem drive) {
+    public PhotonOdometry(String name, Transform3d offset, DriveSubsystem drive) {
         this.name = name;
         this.offset = offset;
         this.drive = drive;
         this.photonEst = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded),
                 offset);
         this.cam = new PhotonCamera(this.name);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     private FieldObject2d getVisionDiag() {

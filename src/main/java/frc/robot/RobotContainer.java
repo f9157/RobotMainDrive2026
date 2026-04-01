@@ -6,10 +6,15 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PhotonOdometry;
 
 public class RobotContainer {
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final XboxController m_driverController = new XboxController(Constants.OIConstants.kDriverControllerPort);
+
+
+  private final PhotonOdometry m_leftVision = new PhotonOdometry("left_camera", Constants.VisionConstants.kLeftCameraOffset, this.m_drive);
+  private final PhotonOdometry m_rightVision = new PhotonOdometry("right_camera", Constants.VisionConstants.kRightCameraOffset, this.m_drive);
 
   public RobotContainer() {
     configureDefaultCommands();
