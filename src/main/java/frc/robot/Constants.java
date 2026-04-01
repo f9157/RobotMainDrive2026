@@ -82,4 +82,13 @@ public final class Constants {
 
     public static final double kTurningP = 4.0;
   }
+
+  public static final class VisionConstants {
+
+    public static final double FlatStdDevXY = 0.2;
+
+    public static final double maxFlatDistanceMeters = 2;
+
+    public static final double expMultiplier = 1;
+  }
 }
