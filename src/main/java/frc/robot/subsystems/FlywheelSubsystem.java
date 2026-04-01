@@ -31,6 +31,8 @@ public class FlywheelSubsystem extends SubsystemBase {
 
 
         SlotConfigs slot = new SlotConfigs();
+        
+        
 
         MotionMagicConfigs mmConfig = Constants.FlywheelConstants.FlywheelPID.applyTalon(slot);
 
