@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Transform3d;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.SlotConfigs;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
@@ -97,4 +100,42 @@ public final class Constants {
 
     public static final Transform3d kRightCameraOffset = Transform3d.kZero;
   }
+
+    public static class StaticPID {
+        double kP;
+        double kI;
+        double kD;
+        double kV;
+        double kS;
+        double maxAccel;
+        double maxVel;
+
+        public StaticPID(double kP, double kI, double kD, double kV, double kS, double maxAccel, double maxVel) {
+            this.kP = kP;
+            this.kI = kI;
+            this.kD = kD;
+            this.kV = kV;
+            this.kS = kS;
+            this.maxAccel = maxAccel;
+            this.maxVel = maxVel;
+        }
+
+        public MotionMagicConfigs applyTalon(SlotConfigs slot) {
+            slot.kV = this.kV;
+            slot.kP = this.kP;
+            slot.kI = this.kI;
+            slot.kD = this.kD;
+            slot.kS = this.kS;
+            return new MotionMagicConfigs().withMotionMagicAcceleration(maxAccel).withMotionMagicCruiseVelocity(maxVel);
+        }
+
+    }
+
+    public static final class FlywheelConstants {
+        public static final int kLeftMainFlywheelCanId = 2;
+
+        public static final int kRightFollowFlywheelCanId = 4;
+
+        public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
+    }
 }
