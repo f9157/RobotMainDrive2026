@@ -95,7 +95,7 @@ public class SwerveModule {
 
     // m_turningPid.enableContinuousInput(-Math.PI, Math.PI);
 
-    // zero();
+    zero();
   }
 
   public double getTurnMotorPosition() {
