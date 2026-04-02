@@ -46,12 +46,12 @@ public class IO {
                                 .onTrue(new AimTurret(RobotContainer.m_turret, -90));
 
                 m_driverController.leftBumper()
-                                .onTrue(new AutoAim(RobotContainer.m_turret, RobotContainer.m_flywheel,
-                                                RobotContainer.m_targetting, false));
+                                .onTrue(new AutoAim(RobotContainer.m_turret, RobotContainer.m_flywheel, RobotContainer.m_indexer,
+                                                RobotContainer.m_targeting, false));
 
                 m_driverController.rightBumper()
-                                .onTrue(new AutoAim(RobotContainer.m_turret, RobotContainer.m_flywheel,
-                                                RobotContainer.m_targetting, true));
+                                .onTrue(new AutoAim(RobotContainer.m_turret, RobotContainer.m_flywheel, RobotContainer.m_indexer,
+                                                RobotContainer.m_targeting, true));
 
         }
 }

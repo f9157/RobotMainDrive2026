@@ -176,10 +176,10 @@ public final class Constants {
         public static final boolean kBackRightDriveInverted = false;
         public static final boolean kBackRightTurnInverted = false;
 
-        public static final double kMaxSpeedMetersPerSecond = 4.5;
+        public static final double kMaxSpeedMetersPerSecond = 5.5;
         public static final double kMaxAngularSpeedRadPerSec = 2.0 * Math.PI;
 
-        public static final double kWheelDiameterMeters = 0.1016; // 4 in
+        public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 6.75;
         public static final double kTurningMotorGearRatio = 22.8;
         public static final double kDriveLengthMeters = .66;
@@ -226,6 +226,8 @@ public final class Constants {
         public static final int kRightFollowFlywheelCanId = 34; // !
 
         public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
+
+        public static final double kFlywheelHubTolerance = 5;
     }
 
     public static final class IntakeConstants {

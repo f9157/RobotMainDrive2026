@@ -17,6 +17,15 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Targeting {
+
+    public static class AutoAimingState {
+        public static boolean turretAimed = false;
+        public static boolean hoodAimed = false;
+        public static boolean flywheelWithinTolerance = false;
+    }
+
+    public AutoAimingState autoAimingState = new AutoAimingState();
+
     private final DriveSubsystem drivetrain;
     private Pose2d hubPose;
     private final Field2d field = new Field2d();
