@@ -24,8 +24,10 @@ public class RobotContainer {
 
   public static final TurretSubsystem m_turret = new TurretSubsystem();
 
-  private final PhotonOdometry m_leftVision = new PhotonOdometry("left_camera", Constants.VisionConstants.kLeftCameraOffset, this.m_drive);
-  private final PhotonOdometry m_rightVision = new PhotonOdometry("right_camera", Constants.VisionConstants.kRightCameraOffset, this.m_drive);
+  public static final Targeting m_targetting = new Targeting(m_drive);
+
+  private static final PhotonOdometry m_leftVision = new PhotonOdometry("left_camera", Constants.VisionConstants.kLeftCameraOffset, m_drive);
+  private static final PhotonOdometry m_rightVision = new PhotonOdometry("right_camera", Constants.VisionConstants.kRightCameraOffset, m_drive);
 
 
   public RobotContainer() {
