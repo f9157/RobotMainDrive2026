@@ -91,11 +91,11 @@ public final class Constants {
 
   public static final class VisionConstants {
 
-    public static final double FlatStdDevXY = 0.2;
+    public static final double kFlatStdDevXY = 0.2;
 
-    public static final double maxFlatDistanceMeters = 2;
+    public static final double kMaxFlatDistanceMeters = 2;
 
-    public static final double expMultiplier = 1;
+    public static final double kExpMultiplier = 1;
 
     public static final Transform3d kLeftCameraOffset = Transform3d.kZero;
 
@@ -137,20 +137,20 @@ public final class Constants {
     }
 
     public static final class FlywheelConstants {
-        public static final int kLeftMainFlywheelCanId = 2;
+        public static final int kLeftMainFlywheelCanId = 32;
 
-        public static final int kRightFollowFlywheelCanId = 4;
+        public static final int kRightFollowFlywheelCanId = 34;
 
         public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
     }
 
     public static final class IntakeConstants {
-        public static final int kDeployMotorCanId = 10;
+        public static final int kDeployMotorCanId = 20;
 
         public static final StaticPID DeployPID = new StaticPID(0,0,0,0.13,0.4,30,30);
 
-        public static final int kWheelMainMotorCanId = 11;
-        public static final int kWheelFollowMotorCanId = 12;
+        public static final int kWheelMainMotorCanId = 21;
+        public static final int kWheelFollowMotorCanId = 22;
 
         public static final StaticPID WheelPID = new StaticPID(0,0,0,0,0,0,0);
 
@@ -158,11 +158,11 @@ public final class Constants {
 
         public static final double kIntakeDeployPosition = 0;
 
-        public static final double kIntakeVelocity = 0;
+        public static final double kIntakeVelocity = 10;
     }
 
     public static final class IndexerConstants {
-        public static final int kMotorCanId = 15;
-        public static final double kIndexerSpeed = 0;
+        public static final int kMotorCanId = 45;
+        public static final double kIndexerSpeed = 0.9;
     }
 }

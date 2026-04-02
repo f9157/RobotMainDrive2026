@@ -48,13 +48,13 @@ public class PhotonOdometry extends SubsystemBase {
 
     private double stdDevExp(double distance) {
         
-        if (distance < VisionConstants.maxFlatDistanceMeters) {
-            return Constants.VisionConstants.FlatStdDevXY;
+        if (distance < VisionConstants.kMaxFlatDistanceMeters) {
+            return Constants.VisionConstants.kFlatStdDevXY;
         }
 
-        double shiftedDistance = distance - VisionConstants.maxFlatDistanceMeters;
+        double shiftedDistance = distance - VisionConstants.kMaxFlatDistanceMeters;
 
-        return Math.exp(VisionConstants.expMultiplier * shiftedDistance) - 1 + VisionConstants.FlatStdDevXY;
+        return Math.exp(VisionConstants.kExpMultiplier * shiftedDistance) - 1 + VisionConstants.kFlatStdDevXY;
     }
 
     private Matrix<N3, N1> computeStdDev(EstimatedRobotPose pose, PhotonPipelineResult res) {

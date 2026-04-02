@@ -73,7 +73,7 @@ public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
 
     public double getCurrent() {
         this.current.refresh();
-        return this.getCurrent();
+        return this.current.getValueAsDouble();
     }
 
     public String getMotorType() {
