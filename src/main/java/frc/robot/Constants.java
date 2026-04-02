@@ -63,6 +63,21 @@ public final class Constants {
       }
   }
 
+  public static final class AutoConstants {
+      public static final double cornerOffsetY = 1.5;
+      public static final double cornerOffsetX = 3;
+      // for offsets, x positive is backwards from the apriltag, y positive is to the
+      // right of the apriltag
+      // so for example, and x of 1 and a y of 1 would be 1 meter back and 1 meter to
+      // the right of the apriltag
+
+
+      public static final Pose2d blueAllianceTop = new Pose2d(0 + cornerOffsetX, 8.069 - cornerOffsetY, Rotation2d.kZero);//(0,8.069)
+      public static final Pose2d blueAllianceBottom = new Pose2d(0 + cornerOffsetX, 0 + cornerOffsetY, Rotation2d.kZero);
+      public static final Pose2d redAllianceTop = new Pose2d(16.54 - cornerOffsetX, 8.069 - cornerOffsetY, Rotation2d.kZero); //(8.069, 16.54)
+      public static final Pose2d redAllianceBottom = new Pose2d(16.54 - cornerOffsetX,0 + cornerOffsetY, Rotation2d.kZero);  //(16.54, 0)
+  }
+
 
   public static final class DriveConstants {
     // Robot geometry
