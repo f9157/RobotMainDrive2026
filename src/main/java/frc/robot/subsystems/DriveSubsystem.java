@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -64,8 +65,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final Pigeon2 m_gyro = new Pigeon2(DriveConstants.kPigeonIMU);
 
 
-  private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
-  getHeading(), this.getModulePositions(),
+  public SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
+  getGyroHeading(), this.getModulePositions(),
    Pose2d.kZero
   );
 
@@ -129,7 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double applyDeadband(double value) {
-    return MathUtil.applyDeadband(value, Constants.OIConstants.kDeadband);
+    return MathUtil.applyDeadband(value, Constants.IOConstants.kDeadband);
   }
 
   public void setZero() {

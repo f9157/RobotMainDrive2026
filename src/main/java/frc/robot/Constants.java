@@ -1,11 +1,17 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Transform3d;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.SlotConfigs;
+import com.revrobotics.spark.SparkMax;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class Constants {
-  public static final class OIConstants {
+  public static final class IOConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorCOntrollerPort = 1;
     public static final double kDeadband = 0.08;
   }
 
@@ -48,10 +54,10 @@ public final class Constants {
     public static final int kBackLeftAbsEncoderPort = 2;
     public static final int kBackRightAbsEncoderPort = 3;
 
-    public static final double kFrontLeftAbsOffset = 0.0;
-    public static final double kFrontRightAbsOffset = 0.68;
-    public static final double kBackLeftAbsOffset = 0.21;
-    public static final double kBackRightAbsOffset = 0.54;
+    public static final double kFrontLeftAbsOffset = 0.00;
+    public static final double kFrontRightAbsOffset = 0.688;
+    public static final double kBackLeftAbsOffset = 0.238;
+    public static final double kBackRightAbsOffset = 0.617;
 
     public static final boolean kFrontLeftDriveInverted = true;
     public static final boolean kFrontLeftTurnInverted = false;
@@ -82,4 +88,81 @@ public final class Constants {
 
     public static final double kTurningP = 4.0;
   }
+
+  public static final class VisionConstants {
+
+    public static final double kFlatStdDevXY = 0.2;
+
+    public static final double kMaxFlatDistanceMeters = 2;
+
+    public static final double kExpMultiplier = 1;
+
+    public static final Transform3d kLeftCameraOffset = Transform3d.kZero;
+
+    public static final Transform3d kRightCameraOffset = Transform3d.kZero;
+  }
+
+    public static class StaticPID {
+        double kP;
+        double kI;
+        double kD;
+        double kV;
+        double kS;
+        double maxAccel;
+        double maxVel;
+
+        public StaticPID(double kP, double kI, double kD, double kV, double kS, double maxAccel, double maxVel) {
+            this.kP = kP;
+            this.kI = kI;
+            this.kD = kD;
+            this.kV = kV;
+            this.kS = kS;
+            this.maxAccel = maxAccel;
+            this.maxVel = maxVel;
+        }
+
+        public MotionMagicConfigs applyTalon(SlotConfigs slot) {
+            slot.kV = this.kV;
+            slot.kP = this.kP;
+            slot.kI = this.kI;
+            slot.kD = this.kD;
+            slot.kS = this.kS;
+            return new MotionMagicConfigs().withMotionMagicAcceleration(maxAccel).withMotionMagicCruiseVelocity(maxVel);
+        }
+
+        public void applySparkMax(SparkMax controller) {
+
+        }
+
+    }
+
+    public static final class FlywheelConstants {
+        public static final int kLeftMainFlywheelCanId = 32;
+
+        public static final int kRightFollowFlywheelCanId = 34;
+
+        public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
+    }
+
+    public static final class IntakeConstants {
+        public static final int kDeployMotorCanId = 20;
+
+        public static final StaticPID DeployPID = new StaticPID(0,0,0,0.13,0.4,30,30);
+
+        public static final int kWheelMainMotorCanId = 21;
+        public static final int kWheelFollowMotorCanId = 22;
+
+        public static final StaticPID WheelPID = new StaticPID(0,0,0,0,0,0,0);
+
+        public static final double kIntakeRetractPosition = 0;
+
+        public static final double kIntakeDeployPosition = 0;
+
+        public static final double kIntakeVelocity = 10;
+    }
+
+    public static final class IndexerConstants {
+        public static final int kMotorCanId = 45;
+        public static final double kIndexerSpeed = 0.9;
+    }
 }

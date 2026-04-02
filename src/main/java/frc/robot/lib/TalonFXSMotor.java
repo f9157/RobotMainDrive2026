@@ -1,0 +1,108 @@
+package frc.robot.lib;
+
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
+    
+    private int canId;
+
+    private TalonFXS motor;
+
+
+    private StatusSignal<AngularVelocity> velocity;
+
+    private StatusSignal<Angle> position;
+
+    private StatusSignal<Current> current;
+
+    private MotionMagicVoltage positionControl = new MotionMagicVoltage(0);
+
+    private MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(0);
+
+    public TalonFXSMotor(int canId) {
+        this.canId = canId;
+        this.motor = new TalonFXS(canId);
+        this.position = this.motor.getPosition();
+        this.velocity = this.motor.getVelocity();
+        this.current = this.motor.getStatorCurrent();
+    }
+
+    public TalonFXS getInner() {
+        return this.motor;
+    }
+
+    public void setDutyOut(double ref) {
+        this.motor.set(ref);
+    }
+
+    public double getDutyOut() {
+        return this.motor.get();
+    }
+
+    public void setPosition(double ref) {
+        this.positionControl.Position = ref;
+        this.motor.setControl(this.positionControl);
+    }
+
+    public double getPosition() {
+        this.position.refresh();
+        return this.position.getValueAsDouble();
+    }
+
+    public void setVelocity(double ref) {
+        this.velocityControl.Velocity = ref;
+        this.motor.setControl(this.velocityControl);
+    }
+
+    public double getVelocity() {
+        this.velocity.refresh();
+        return this.velocity.getValueAsDouble();
+    }
+
+    public double getCurrent() {
+        this.current.refresh();
+        return this.current.getValueAsDouble();
+    }
+
+    public String getMotorType() {
+        return "TalonFXS";
+    }
+
+    public int getDeviceId() {
+        return this.canId;
+    }
+
+    public void follow(int otherCanId, boolean invert) {
+
+        MotorAlignmentValue mAlign;
+        if (invert) {
+            mAlign = MotorAlignmentValue.Opposed;
+        } else {
+            mAlign = MotorAlignmentValue.Aligned;
+        }
+
+        this.motor.setControl(new Follower(otherCanId, mAlign));
+    }
+
+    public void setEncoderPosition(double ref) {
+        this.motor.setPosition(ref);
+    }
+
+    public void stop() {
+        this.motor.stopMotor();
+    }
+
+
+}
