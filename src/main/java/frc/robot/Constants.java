@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
@@ -153,13 +154,13 @@ public final class Constants {
         public static final int kBackLeftTurnCanId = 14;// !
         public static final int kBackRightDriveCanId = 10;// !
         public static final int kBackRightTurnCanId = 12;// !
-        public static final int kPigeonIMU = 9; //!
+        public static final int kPigeonIMU = 9; // !
 
         // Absolute encoders
-        public static final int kFrontLeftAbsEncoderPort = 1; //!
-        public static final int kFrontRightAbsEncoderPort = 2; //!
-        public static final int kBackLeftAbsEncoderPort = 0; //!
-        public static final int kBackRightAbsEncoderPort = 3; //!
+        public static final int kFrontLeftAbsEncoderPort = 1; // !
+        public static final int kFrontRightAbsEncoderPort = 2; // !
+        public static final int kBackLeftAbsEncoderPort = 0; // !
+        public static final int kBackRightAbsEncoderPort = 3; // !
 
         public static final double kFrontLeftAbsOffset = 0.00;
         public static final double kFrontRightAbsOffset = 0.688;
@@ -200,15 +201,29 @@ public final class Constants {
 
         public static final double kExpMultiplier = 1;
 
-        public static final Transform3d kLeftCameraOffset = Transform3d.kZero;
+        public static final double kCameraPitchRad = Units.degreesToRadians(30);
 
-        public static final Transform3d kRightCameraOffset = Transform3d.kZero;
+        public static final double kCameraYawRad = Units.degreesToRadians(45);
+
+        public static final double kCameraXYOffsetMeters = Units.inchesToMeters(12.5);
+
+        public static final double kCameraZOffsetMeters = Units.inchesToMeters(7.5);
+
+        public static final Rotation3d kLeftCameraRotation = new Rotation3d(0, kCameraPitchRad, kCameraYawRad);
+
+        public static final Rotation3d kRightCameraRotation = new Rotation3d(0, kCameraPitchRad, -kCameraYawRad);
+
+        public static final Transform3d kLeftCameraOffset = new Transform3d(kCameraXYOffsetMeters,
+                kCameraXYOffsetMeters, kCameraZOffsetMeters, kLeftCameraRotation);
+
+        public static final Transform3d kRightCameraOffset = new Transform3d(kCameraXYOffsetMeters,
+                -kCameraXYOffsetMeters, kCameraZOffsetMeters, kRightCameraRotation);
     }
 
     public static final class FlywheelConstants {
-        public static final int kLeftMainFlywheelCanId = 32; //!
+        public static final int kLeftMainFlywheelCanId = 32; // !
 
-        public static final int kRightFollowFlywheelCanId = 34; //!
+        public static final int kRightFollowFlywheelCanId = 34; // !
 
         public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
     }
@@ -235,13 +250,13 @@ public final class Constants {
     }
 
     public static final class IndexerConstants {
-        public static final int kMotorCanId = 45; //!
+        public static final int kMotorCanId = 45; // !
         public static final double kIndexerSpeed = 0.9;
     }
 
     public static final class TurretConstants {
-        public static final int kTurretCanId = 51; //!
-        public static final double kTurretGearRatio = 10; //!
+        public static final int kTurretCanId = 51; // !
+        public static final double kTurretGearRatio = 10; // !
         public static final StaticPID turretPID = new StaticPID(0, 0, 0, 0.13, 0, 0, 0);
         public static final double kTurretStaticTolerance = 3;
     }
