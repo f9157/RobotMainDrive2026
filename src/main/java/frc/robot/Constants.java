@@ -235,8 +235,8 @@ public final class Constants {
 
         public static final StaticPID DeployPID = new StaticPID(0, 0, 0, 0.13, 0.4, 30, 30);
 
-        public static final int kWheelMainMotorCanId = 21;
-        public static final int kWheelFollowMotorCanId = 22;
+        public static final int kWheelMainMotorCanId = 21; // !
+        public static final int kWheelFollowMotorCanId = 22; // !
 
         public static final StaticPID WheelPID = new StaticPID(0, 0, 0, 0, 0, 0, 0);
 
