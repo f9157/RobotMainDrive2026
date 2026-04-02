@@ -35,8 +35,8 @@ public class SwerveModule {
       String name) {
 
     this.name = name;
-    m_driveMotor = new SparkMotor(driveCanId, false);
-    m_turnMotor = new SparkMotor(turnCanId, false);
+    m_driveMotor = new SparkMotor(driveCanId, name+"Drive", false);
+    m_turnMotor = new SparkMotor(turnCanId, name+"Turn", false);
 
     m_absoluteEncoder = new AnalogEncoder(absoluteEncoderPort);
     m_absoluteEncoderOffset = absoluteEncoderOffsetRad;

@@ -4,6 +4,8 @@ public interface Motor {
 
     public String getMotorType();
 
+    public String getMotorName();
+
     public int getDeviceId();
 
     public void setDutyOut(double ref);

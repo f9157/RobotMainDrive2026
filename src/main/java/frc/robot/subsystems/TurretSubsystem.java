@@ -1,21 +1,10 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.TurretConstants;
 import frc.robot.lib.TalonFXSMotor;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -30,7 +19,7 @@ public class TurretSubsystem extends SubsystemBase {
     // private boolean m_autoAimEnabled  = false;
 
     public TurretSubsystem() {
-        this.turretMotor = new TalonFXSMotor(Constants.TurretConstants.kTurretCanId);
+        this.turretMotor = new TalonFXSMotor(Constants.TurretConstants.kTurretCanId, "Turret");
     }
 
     private double motorToTurret(double motorValue) {
