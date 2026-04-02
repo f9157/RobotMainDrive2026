@@ -37,7 +37,15 @@ public class IntakeSubsystem extends SubsystemBase {
         this.deployMotor.setPosition(IntakeConstants.kIntakeDeployPosition);
     }
 
-    public void intake() {
+    public boolean isDeployed() {
+        return Math.abs(this.deployMotor.getPosition() - IntakeConstants.kIntakeDeployPosition) < IntakeConstants.kIntakeDeployTolerance;
+    }
+
+    public boolean isRetracted() {
+        return Math.abs(this.deployMotor.getPosition() - IntakeConstants.kIntakeRetractPosition) < IntakeConstants.kIntakeRetractTolerance;
+    }
+
+    public void startIntaking() {
         this.wheelMain.setVelocity(IntakeConstants.kIntakeVelocity);
     }
 

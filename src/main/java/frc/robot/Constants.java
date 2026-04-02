@@ -223,6 +223,10 @@ public final class Constants {
         public static final double kIntakeDeployPosition = 0;
 
         public static final double kIntakeVelocity = 10;
+
+        public static final double kIntakeDeployTolerance = 3;
+
+        public static final double kIntakeRetractTolerance = 5;
     }
 
     public static final class IndexerConstants {
