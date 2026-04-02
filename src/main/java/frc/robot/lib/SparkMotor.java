@@ -1,10 +1,13 @@
 package frc.robot.lib;
 
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
 
@@ -88,6 +91,9 @@ public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
     }
 
     public void follow(int otherCanId, boolean invert) {
-        
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.follow(otherCanId);
+        config.inverted(invert);
+        this.motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 }

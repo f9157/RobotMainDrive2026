@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.lib.SparkMotor;
 import frc.robot.lib.TalonFXSMotor;
@@ -22,7 +23,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
         this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, "IntakeWheelFollow", false);
 
+        Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelMain);
+    
+
         this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
+        
         
 
     }
