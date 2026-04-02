@@ -171,4 +171,8 @@ public final class Constants {
         public static final double kTurretGearRatio = 10; // Double Check this
         public static final StaticPID turretPID = new StaticPID(0,0,0,0.13,0,0,0);
     }
+
+    public static final class HoodConstants {
+        public static final int kActuatorCanId = 61;
+    }
 }
