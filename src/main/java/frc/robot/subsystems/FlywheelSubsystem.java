@@ -22,7 +22,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     public FlywheelSubsystem() {
 
 
-        this.main = new TalonFXSMotor(FlywheelConstants.kLeftMainFlywheelCanId);
+        this.main = new TalonFXSMotor(FlywheelConstants.kLeftMainFlywheelCanId, "FlywheelLeft");
 
 
         SlotConfigs slot = new SlotConfigs();
@@ -36,7 +36,7 @@ public class FlywheelSubsystem extends SubsystemBase {
         config.apply(slot);
         config.apply(mmConfig);
 
-        this.follower = new TalonFXSMotor(FlywheelConstants.kRightFollowFlywheelCanId);
+        this.follower = new TalonFXSMotor(FlywheelConstants.kRightFollowFlywheelCanId, "FlywheelRight");
 
         this.follower.follow(FlywheelConstants.kLeftMainFlywheelCanId, true);
 

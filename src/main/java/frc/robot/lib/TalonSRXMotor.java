@@ -9,9 +9,11 @@ public class TalonSRXMotor implements Motor, MotorFollow {
     TalonSRX motor;
     boolean inverted;
     int canId;
+    String name;
 
-    public TalonSRXMotor(int canId, boolean inverted) {
+    public TalonSRXMotor(int canId, String name, boolean inverted) {
         this.canId = canId;
+        this.name = name;
         this.inverted = inverted;
         this.motor = new TalonSRX(canId);
         this.motor.setInverted(this.inverted);
@@ -19,6 +21,10 @@ public class TalonSRXMotor implements Motor, MotorFollow {
 
     public String getMotorType() {
         return "TalonSRX";
+    }
+
+    public String getMotorName() {
+        return this.name;
     }
 
     public int getDeviceId() {

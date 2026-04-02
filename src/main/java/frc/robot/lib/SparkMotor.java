@@ -16,8 +16,11 @@ public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
 
     int canId;
 
-    public SparkMotor(int canId, boolean brushed) {
+    String name;
+
+    public SparkMotor(int canId, String name, boolean brushed) {
         this.canId = canId;
+        this.name = name;
         MotorType mType;
         if (brushed) {
             mType = MotorType.kBrushed;
@@ -38,6 +41,10 @@ public class SparkMotor implements PidMotor, MotorDiag, MotorFollow {
 
     public String getMotorType() {
         return "SparkMax";
+    }
+
+    public String getMotorName() {
+        return this.name;
     }
 
     public int getDeviceId() {

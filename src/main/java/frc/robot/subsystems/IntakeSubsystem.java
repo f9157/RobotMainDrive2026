@@ -16,11 +16,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
 
 
-        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId);
+        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId, "IntakeDeploy");
 
-        this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, false);
+        this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, "IntakeWheelMain", false);
 
-        this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, false);
+        this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, "IntakeWheelFollow", false);
 
         this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
         

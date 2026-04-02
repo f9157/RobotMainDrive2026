@@ -18,6 +18,8 @@ public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
     
     private int canId;
 
+    private String name;
+
     private TalonFXS motor;
 
 
@@ -31,8 +33,9 @@ public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
 
     private MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(0);
 
-    public TalonFXSMotor(int canId) {
+    public TalonFXSMotor(int canId, String name) {
         this.canId = canId;
+        this.name = name;
         this.motor = new TalonFXS(canId);
         this.position = this.motor.getPosition();
         this.velocity = this.motor.getVelocity();
@@ -41,6 +44,10 @@ public class TalonFXSMotor implements PidMotor, MotorDiag, MotorFollow {
 
     public TalonFXS getInner() {
         return this.motor;
+    }
+
+    public String getMotorName() {
+        return this.name;
     }
 
     public void setDutyOut(double ref) {

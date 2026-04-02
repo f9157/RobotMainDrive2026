@@ -12,7 +12,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
     public IndexerSubsystem() {
 
-        this.motor = new TalonSRXMotor(Constants.IndexerConstants.kMotorCanId, false);
+        this.motor = new TalonSRXMotor(Constants.IndexerConstants.kMotorCanId, "Indexer", false);
     }
 
     public void runIndexer() {
