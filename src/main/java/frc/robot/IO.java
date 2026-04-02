@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AimTurret;
+import frc.robot.commands.AutoTurret;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.RunIntake;
@@ -30,8 +32,23 @@ public class IO {
                 .onTrue(new RetractIntake(RobotContainer.m_intake));
 
         m_driverController.leftTrigger()
-                .onTrue(new RunIntake(RobotContainer.m_intake)).onFalse(new StopIntake(RobotContainer.m_intake));
+                .onTrue(new RunIntake(RobotContainer.m_intake))
+                .onFalse(new StopIntake(RobotContainer.m_intake));
         
+        m_driverController.povUp()
+                .onTrue(new AimTurret(RobotContainer.m_turret, 0));
+
+        m_driverController.povLeft()
+                .onTrue(new AimTurret(RobotContainer.m_turret, 90));
+
+        m_driverController.povRight()
+                .onTrue(new AimTurret(RobotContainer.m_turret, -90));
+
+        m_driverController.leftBumper()
+                .onTrue(new AutoTurret(RobotContainer.m_turret, RobotContainer.m_targetting, false));
+
+        m_driverController.rightBumper()
+                .onTrue(new AutoTurret(RobotContainer.m_turret, RobotContainer.m_targetting, true));
 
     }
 }
