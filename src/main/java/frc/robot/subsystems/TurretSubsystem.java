@@ -14,82 +14,69 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.lib.TalonFXSMotor;
 
 public class TurretSubsystem extends SubsystemBase {
 
-    private final SparkMax        m_turretMotor;
-    private final RelativeEncoder m_encoder;
-    private final PIDController   m_pid;
+    // private final SparkMax        m_turretMotor;
+    // private final RelativeEncoder m_encoder;
+    // private final PIDController   m_pid;
+
+    private TalonFXSMotor turretMotor;
 
     private double  m_targetAngleDeg  = 0.0;
-    private boolean m_autoAimEnabled  = false;
+    // private boolean m_autoAimEnabled  = false;
 
     public TurretSubsystem() {
-        m_turretMotor = new SparkMax(TurretConstants.kTurretCanId, MotorType.kBrushless);
-
-        SparkMaxConfig cfg = new SparkMaxConfig();
-        cfg.idleMode(IdleMode.kBrake)
-           .smartCurrentLimit(TurretConstants.kCurrentLimitAmps)
-           .inverted(TurretConstants.kTurretInverted);
-        cfg.encoder
-           .positionConversionFactor(TurretConstants.kPositionConversionFactor)
-           .velocityConversionFactor(TurretConstants.kPositionConversionFactor / 60.0);
-
-        m_turretMotor.configure(cfg, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-        m_encoder = m_turretMotor.getEncoder();
-        m_encoder.setPosition(0.0);
-
-        m_pid = new PIDController(TurretConstants.kP, TurretConstants.kI, TurretConstants.kD);
-        m_pid.setTolerance(TurretConstants.kToleranceDeg);
-        m_pid.enableContinuousInput(-180.0, 180.0);
+        this.turretMotor = new TalonFXSMotor(Constants.TurretConstants.kTurretCanId);
     }
 
-    public void setAutoAim(boolean enabled) { m_autoAimEnabled = enabled; }
-    public boolean isAutoAimEnabled()       { return m_autoAimEnabled; }
-    public boolean isOnTarget()             { return m_pid.atSetpoint(); }
-    public double  getTurretAngleDeg()      { return m_encoder.getPosition(); }
-
-    public void updateAimAngle(Pose2d robotPose, Translation2d targetPos) {
-        double dx = targetPos.getX() - robotPose.getX();
-        double dy = targetPos.getY() - robotPose.getY();
-        double fieldAngleDeg  = Math.toDegrees(Math.atan2(dy, dx));
-        double robotYawDeg    = robotPose.getRotation().getDegrees();
-        m_targetAngleDeg = MathUtil.inputModulus(fieldAngleDeg - robotYawDeg, -180.0, 180.0);
+    private double motorToTurret(double motorValue) {
+        return motorValue / Constants.TurretConstants.kTurretGearRatio;
     }
 
-    public void setManualAngle(double degrees) {
-        m_targetAngleDeg = MathUtil.inputModulus(degrees, -180.0, 180.0);
+    private double turretToMotor(double turretValue) {
+        return turretValue * Constants.TurretConstants.kTurretGearRatio;
     }
 
-    public double getDistanceToTarget(Pose2d robotPose, Translation2d targetPos) {
-        double dx = targetPos.getX() - robotPose.getX();
-        double dy = targetPos.getY() - robotPose.getY();
-        return Math.hypot(dx, dy);
+    // public void updateAimAngle(Pose2d robotPose, Translation2d targetPos) {
+    //     double dx = targetPos.getX() - robotPose.getX();
+    //     double dy = targetPos.getY() - robotPose.getY();
+    //     double fieldAngleDeg  = Math.toDegrees(Math.atan2(dy, dx));
+    //     double robotYawDeg    = robotPose.getRotation().getDegrees();
+    //     m_targetAngleDeg = MathUtil.inputModulus(fieldAngleDeg - robotYawDeg, -180.0, 180.0);
+    // }
+
+    public void setAngleDegrees(double degrees) {
+        this.m_targetAngleDeg = MathUtil.inputModulus(degrees, -180.0, 180.0);
+        double turretRotation = this.m_targetAngleDeg / 360;
+        double motorRotation = this.turretToMotor(turretRotation);
+        this.turretMotor.setPosition(motorRotation);
     }
 
-    public void stop() { m_turretMotor.set(0.0); }
+    public double getAngleDegrees() {
+        double motorRotation = this.turretMotor.getPosition();
+        double turretRotation = this.motorToTurret(motorRotation);
+        return turretRotation * 360;
+    }
+
+    // public double getDistanceToTarget(Pose2d robotPose, Translation2d targetPos) {
+    //     double dx = targetPos.getX() - robotPose.getX();
+    //     double dy = targetPos.getY() - robotPose.getY();
+    //     return Math.hypot(dx, dy);
+    // }
+
+    // public void stop() { m_turretMotor.set(0.0); }
 
     @Override
     public void periodic() {
-        if (m_autoAimEnabled) {
-            double currentAngle = getTurretAngleDeg();
-            double output = MathUtil.clamp(
-                m_pid.calculate(currentAngle, m_targetAngleDeg),
-                -TurretConstants.kMaxOutput, TurretConstants.kMaxOutput);
-            if ((currentAngle >= TurretConstants.kMaxAngleDeg && output > 0) ||
-                (currentAngle <= TurretConstants.kMinAngleDeg && output < 0)) {
-                output = 0.0;
-            }
-            m_turretMotor.set(output);
-        }
 
-        SmartDashboard.putNumber("Turret/CurrentAngle_deg", getTurretAngleDeg());
+        this.turretMotor.postMotorDiagnostics();
+        SmartDashboard.putNumber("Turret/CurrentAngle_deg", getAngleDegrees());
         SmartDashboard.putNumber("Turret/TargetAngle_deg",  m_targetAngleDeg);
-        SmartDashboard.putNumber("Turret/Error_deg",        m_pid.getError());
-        SmartDashboard.putBoolean("Turret/OnTarget",        isOnTarget());
-        SmartDashboard.putBoolean("Turret/AutoAimEnabled",  m_autoAimEnabled);
+        // SmartDashboard.putBoolean("Turret/OnTarget",        isOnTarget());
+        // SmartDashboard.putBoolean("Turret/AutoAimEnabled",  m_autoAimEnabled);
     }
 }
