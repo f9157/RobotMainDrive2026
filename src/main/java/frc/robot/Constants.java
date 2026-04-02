@@ -15,6 +15,23 @@ public final class Constants {
     public static final double kDeadband = 0.08;
   }
 
+  public static final class PositionConstants {
+    public static final Pose2d BlueHubPose = new Pose2d(
+        Units.inchesToMeters(181.56),
+        Units.inchesToMeters(158.32),
+        Rotation2d.kZero);
+    public static final Pose2d RedHubPose = new Pose2d(
+        Units.inchesToMeters(468.56),
+        Units.inchesToMeters(158.32),
+        Rotation2d.kZero);
+
+    public static final double HubZ = Units.inchesToMeters(120.36);
+    public static final double RobotZ = Units.inchesToMeters(15.0);
+    public static final double DeltaZ = HubZ - RobotZ;
+
+  }
+
+
   public static final class DriveConstants {
     // Robot geometry
     public static final double kTrackWidthMeters = 0.53;
