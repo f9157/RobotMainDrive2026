@@ -103,6 +103,8 @@ public class DriveSubsystem extends SubsystemBase {
             getHeading())
         : new ChassisSpeeds(xSpeed, ySpeed, rot);
 
+    chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(
