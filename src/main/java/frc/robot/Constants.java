@@ -4,6 +4,8 @@ import edu.wpi.first.math.geometry.Transform3d;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.revrobotics.spark.SparkMax;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -29,6 +31,34 @@ public final class Constants {
     public static final double RobotZ = Units.inchesToMeters(15.0);
     public static final double DeltaZ = HubZ - RobotZ;
 
+  }
+
+  public class TargetingConstants {
+      public static final double blueAllianceZoneMaxXMeters = Units.inchesToMeters(158.6);
+      public static final double redAllianceZoneMinXMeters = Units.inchesToMeters(492.6);
+
+      public static final double gravity = 9.81;
+      // used to determine the flywheel speed based on robot distance from the hub
+      public static final double shotSlope = 5.662;
+      public static final double RPSAtZeroDistance = 33.86;
+
+      // used to try to get the shot into the center of the hub
+      public static final double fuelRadius = 0.07;
+      public static final double goalRadius = 0.5;
+
+
+      public static class FudgeConstants {
+          // Each D-pad press changes the software's effective shot distance by this much
+          public static final double shotDistanceFudgeStepMeters = 0.5;
+      }
+
+      public static InterpolatingDoubleTreeMap flywheelSpeedLookup = new InterpolatingDoubleTreeMap();
+      public static void flyWheelSpeedLookupInitializer() {
+          flywheelSpeedLookup.put(0.0, 33.86);
+          flywheelSpeedLookup.put(4.0, 56.508);
+          flywheelSpeedLookup.put(4.5, 62.66);
+          flywheelSpeedLookup.put(5.0, 65.86);
+      }
   }
 
 

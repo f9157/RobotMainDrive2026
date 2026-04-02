@@ -1,4 +1,4 @@
-package frc.robot.targeting;
+package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -7,12 +7,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.PositionConstants;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Drive.DriveSubsystem;
 
 public class Targeting {
     private final DriveSubsystem drivetrain;
@@ -128,6 +129,23 @@ public class Targeting {
     public void adjustShotDistanceFudgeSteps(int deltaSteps) {
         shotDistanceFudgeSteps += deltaSteps;
         SmartDashboard.putNumber("Aim/ShotDistanceFudge", shotDistanceFudgeSteps);
+    }
+
+    public Pose2d getNearestCorner() {
+        if (AllianceZoneUtil.isBlueAlliance()) {
+            if (getRobotInTopHalfOfField()) {
+                return AutoConstants.blueAllianceTop; // blue alliance is the left corner of the blue alliance
+            } else {
+                return AutoConstants.blueAllianceBottom; // blue alliance bottom is the right corner of the blue
+                                                         // alliance
+            }
+        } else {
+            if (getRobotInTopHalfOfField()) {
+                return AutoConstants.redAllianceTop; // red alliance top is the left corner of the red alliance
+            } else {
+                return AutoConstants.redAllianceBottom; // red alliance bottom is the right corner of the red alliance
+            }
+        }
     }
 
     public double getTargetAngleMinVelocity() {
