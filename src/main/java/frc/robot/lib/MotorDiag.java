@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public interface MotorDiag extends PidMotor {
 
     private String motorKey() {
-        return this.getMotorName()+"_"+this.getDeviceId();
+        return this.getMotorType()+"_"+this.getMotorName()+"_"+this.getDeviceId();
     }
 
     default void postMotorDiagnostics() {

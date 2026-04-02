@@ -153,13 +153,13 @@ public final class Constants {
         public static final int kBackLeftTurnCanId = 14;// !
         public static final int kBackRightDriveCanId = 10;// !
         public static final int kBackRightTurnCanId = 12;// !
-        public static final int kPigeonIMU = 9;
+        public static final int kPigeonIMU = 9; //!
 
         // Absolute encoders
-        public static final int kFrontLeftAbsEncoderPort = 0;
-        public static final int kFrontRightAbsEncoderPort = 1;
-        public static final int kBackLeftAbsEncoderPort = 2;
-        public static final int kBackRightAbsEncoderPort = 3;
+        public static final int kFrontLeftAbsEncoderPort = 1; //!
+        public static final int kFrontRightAbsEncoderPort = 2; //!
+        public static final int kBackLeftAbsEncoderPort = 0; //!
+        public static final int kBackRightAbsEncoderPort = 3; //!
 
         public static final double kFrontLeftAbsOffset = 0.00;
         public static final double kFrontRightAbsOffset = 0.688;
@@ -206,9 +206,9 @@ public final class Constants {
     }
 
     public static final class FlywheelConstants {
-        public static final int kLeftMainFlywheelCanId = 32;
+        public static final int kLeftMainFlywheelCanId = 32; //!
 
-        public static final int kRightFollowFlywheelCanId = 34;
+        public static final int kRightFollowFlywheelCanId = 34; //!
 
         public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
     }
@@ -235,13 +235,13 @@ public final class Constants {
     }
 
     public static final class IndexerConstants {
-        public static final int kMotorCanId = 45;
+        public static final int kMotorCanId = 45; //!
         public static final double kIndexerSpeed = 0.9;
     }
 
     public static final class TurretConstants {
-        public static final int kTurretCanId = 51;
-        public static final double kTurretGearRatio = 10; // !
+        public static final int kTurretCanId = 51; //!
+        public static final double kTurretGearRatio = 10; //!
         public static final StaticPID turretPID = new StaticPID(0, 0, 0, 0.13, 0, 0, 0);
         public static final double kTurretStaticTolerance = 3;
     }
