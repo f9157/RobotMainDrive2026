@@ -1,12 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AimTurret;
-import frc.robot.commands.AutoFlywheel;
 import frc.robot.commands.AutoAim;
-import frc.robot.commands.AutoTurret;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.RunIntake;
