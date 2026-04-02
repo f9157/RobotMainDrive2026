@@ -8,12 +8,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.TargetingConstants;
 import frc.robot.Constants.PositionConstants;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.subsystems.Drive.DriveSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class Targeting {
     private final DriveSubsystem drivetrain;
@@ -75,7 +76,7 @@ public class Targeting {
 
     private Translation2d getFieldRelativeVelocity() {
         ChassisSpeeds robotRelative = drivetrain.getRobotRelativeSpeeds();
-        Rotation2d heading = drivetrain.getRotation();
+        Rotation2d heading = drivetrain.getHeading();
 
         ChassisSpeeds fieldRelative = ChassisSpeeds.fromRobotRelativeSpeeds(
                 robotRelative.vxMetersPerSecond,
@@ -105,7 +106,7 @@ public class Targeting {
     }
 
     public double getRobotToHub() {
-        double rawDistanceMeters = getRobotDistance(hubPose, drivetrain.getPose());
+        double rawDistanceMeters = getRobotDistance(hubPose, drivetrain.getPose2d());
         double fudgeDistanceMeters = shotDistanceFudgeSteps * TargetingConstants.FudgeConstants.shotDistanceFudgeStepMeters;
         double fudgedDistanceMeters = rawDistanceMeters + fudgeDistanceMeters;
 
@@ -115,15 +116,15 @@ public class Targeting {
 
     public double getRobotToNearestCorner() {
         Pose2d corner = getNearestCorner();
-        return getRobotDistance(corner, drivetrain.getPose());
+        return getRobotDistance(corner, drivetrain.getPose2d());
     }
 
     public double getRobotToVirtualHub() {
-        return getRobotDistance(getHubPose(), drivetrain.getPose());
+        return getRobotDistance(getHubPose(), drivetrain.getPose2d());
     }
 
     public double getRobotToVirtualCorner() {
-        return getRobotDistance(getCornerPose(), drivetrain.getPose());
+        return getRobotDistance(getCornerPose(), drivetrain.getPose2d());
     }
 
     public void adjustShotDistanceFudgeSteps(int deltaSteps) {
@@ -203,7 +204,7 @@ public class Targeting {
     }
 
     public boolean inAllianceZone() {
-        return AllianceZoneUtil.inAllianceZone(drivetrain.getPose().getX());
+        return AllianceZoneUtil.inAllianceZone(drivetrain.getPose2d().getX());
     }
 
     public boolean notInAllianceZone() {
@@ -211,7 +212,7 @@ public class Targeting {
     }
 
     public double getRelativeTurretAngleToTargetPose(Pose2d targetPose) {
-        Pose2d robotPose = drivetrain.getPose();
+        Pose2d robotPose = drivetrain.getPose2d();
         Translation2d robotPoint = robotPose.getTranslation();
         Translation2d targetPoint = targetPose.getTranslation();
 
@@ -242,7 +243,7 @@ public class Targeting {
     }
 
     public boolean getRobotInTopHalfOfField() {
-        return drivetrain.getPose().getY() > (4.03);
+        return drivetrain.getPose2d().getY() > (4.03);
     }
 
     // Dashboard data

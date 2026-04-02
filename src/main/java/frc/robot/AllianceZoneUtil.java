@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.Constants.TargetingConstants;
 
 public final class AllianceZoneUtil {
     private AllianceZoneUtil() {

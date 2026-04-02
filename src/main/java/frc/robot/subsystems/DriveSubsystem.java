@@ -85,6 +85,15 @@ public class DriveSubsystem extends SubsystemBase {
       return l;
   }
 
+  public SwerveModuleState[] getSwerveModuleStates() {
+      return new SwerveModuleState[] {
+          m_frontLeft.getModuleState(),
+          m_frontRight.getModuleState(),
+          m_backLeft.getModuleState(),
+          m_backRight.getModuleState()
+      };
+  }
+
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     ChassisSpeeds chassisSpeeds = fieldRelative
         ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -104,6 +113,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(states[1]);
     m_backLeft.setDesiredState(states[2]);
     m_backRight.setDesiredState(states[3]);
+  }
+
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return kinematics.toChassisSpeeds(this.getSwerveModuleStates());
   }
 
   public Rotation2d getGyroHeading() {
