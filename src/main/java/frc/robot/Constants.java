@@ -160,4 +160,9 @@ public final class Constants {
 
         public static final double kIntakeVelocity = 0;
     }
+
+    public static final class IndexerConstants {
+        public static final int kMotorCanId = 15;
+        public static final double kIndexerSpeed = 0;
+    }
 }
