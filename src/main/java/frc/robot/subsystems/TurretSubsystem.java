@@ -51,6 +51,10 @@ public class TurretSubsystem extends SubsystemBase {
         return turretRotation * 360;
     }
 
+    public boolean atTargetAngle(double tolerance) {
+        return Math.abs(this.getAngleDegrees() - this.m_targetAngleDeg) < tolerance;
+    }
+
     // public double getDistanceToTarget(Pose2d robotPose, Translation2d targetPos) {
     //     double dx = targetPos.getX() - robotPose.getX();
     //     double dy = targetPos.getY() - robotPose.getY();
