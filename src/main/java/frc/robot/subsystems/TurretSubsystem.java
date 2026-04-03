@@ -5,7 +5,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.lib.TalonFXSMotor;
+import frc.robot.lib.TalonFXSMotor.MotorType;
 
 public class TurretSubsystem extends SubsystemBase {
 
@@ -19,7 +21,9 @@ public class TurretSubsystem extends SubsystemBase {
     // private boolean m_autoAimEnabled  = false;
 
     public TurretSubsystem() {
-        this.turretMotor = new TalonFXSMotor(Constants.TurretConstants.kTurretCanId, "Turret");
+        this.turretMotor = new TalonFXSMotor(Constants.TurretConstants.kTurretCanId, "Turret", MotorType.getNeo());
+
+        this.turretMotor.apply(TurretConstants.turretPID);
     }
 
     private double motorToTurret(double motorValue) {
@@ -29,14 +33,6 @@ public class TurretSubsystem extends SubsystemBase {
     private double turretToMotor(double turretValue) {
         return turretValue * Constants.TurretConstants.kTurretGearRatio;
     }
-
-    // public void updateAimAngle(Pose2d robotPose, Translation2d targetPos) {
-    //     double dx = targetPos.getX() - robotPose.getX();
-    //     double dy = targetPos.getY() - robotPose.getY();
-    //     double fieldAngleDeg  = Math.toDegrees(Math.atan2(dy, dx));
-    //     double robotYawDeg    = robotPose.getRotation().getDegrees();
-    //     m_targetAngleDeg = MathUtil.inputModulus(fieldAngleDeg - robotYawDeg, -180.0, 180.0);
-    // }
 
     public void setAngleDegrees(double degrees) {
         this.m_targetAngleDeg = MathUtil.inputModulus(degrees, -180.0, 180.0);
@@ -51,13 +47,10 @@ public class TurretSubsystem extends SubsystemBase {
         return turretRotation * 360;
     }
 
-    // public double getDistanceToTarget(Pose2d robotPose, Translation2d targetPos) {
-    //     double dx = targetPos.getX() - robotPose.getX();
-    //     double dy = targetPos.getY() - robotPose.getY();
-    //     return Math.hypot(dx, dy);
-    // }
+    public boolean atTargetAngle(double tolerance) {
+        return Math.abs(this.getAngleDegrees() - this.m_targetAngleDeg) < tolerance;
+    }
 
-    // public void stop() { m_turretMotor.set(0.0); }
 
     @Override
     public void periodic() {
@@ -65,7 +58,5 @@ public class TurretSubsystem extends SubsystemBase {
         this.turretMotor.postMotorDiagnostics();
         SmartDashboard.putNumber("Turret/CurrentAngle_deg", getAngleDegrees());
         SmartDashboard.putNumber("Turret/TargetAngle_deg",  m_targetAngleDeg);
-        // SmartDashboard.putBoolean("Turret/OnTarget",        isOnTarget());
-        // SmartDashboard.putBoolean("Turret/AutoAimEnabled",  m_autoAimEnabled);
     }
 }

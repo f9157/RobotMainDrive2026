@@ -100,14 +100,29 @@ public class SwerveModule {
     return this.getAbsoluteEncoderRaw() - this.m_absoluteEncoderOffset;
   }
 
+  private double motorToWheel(double motorValue) {
+    return (motorValue / DriveConstants.kDriveMotorGearRatio) * (Math.PI * DriveConstants.kWheelDiameterMeters);
+  }
+
   public double getDistance() {
-    return (this.m_driveMotor.getPosition() / DriveConstants.kDriveMotorGearRatio) * (Math.PI * DriveConstants.kWheelDiameterMeters);
+    return this.motorToWheel(this.m_driveMotor.getPosition());
+  }
+
+  public double getVelocity() {
+    return this.motorToWheel(this.m_driveMotor.getVelocity());
   }
 
   public SwerveModulePosition getModulePosition() {
     return new SwerveModulePosition(
         this.getDistance(),
         this.getRotation2d());
+  }
+
+  public SwerveModuleState getModuleState() {
+    return new SwerveModuleState(
+        this.getVelocity(),
+        this.getRotation2d()
+    );
   }
 
   public Rotation2d getRotation2d() {

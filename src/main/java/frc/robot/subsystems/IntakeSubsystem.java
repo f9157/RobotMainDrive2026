@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.lib.SparkMotor;
 import frc.robot.lib.TalonFXSMotor;
+import frc.robot.lib.TalonFXSMotor.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
     
@@ -16,13 +18,19 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
 
 
-        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId, "IntakeDeploy");
+        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId, "IntakeDeploy", MotorType.getNeo());
+
+        this.deployMotor.apply(IntakeConstants.DeployPID);
 
         this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, "IntakeWheelMain", false);
 
         this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, "IntakeWheelFollow", false);
 
-        this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
+        this.wheelMain.apply(IntakeConstants.WheelPID);
+    
+        // Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelFollow);
+        // this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
+        
         
 
     }
@@ -37,8 +45,17 @@ public class IntakeSubsystem extends SubsystemBase {
         this.deployMotor.setPosition(IntakeConstants.kIntakeDeployPosition);
     }
 
-    public void intake() {
+    public boolean isDeployed() {
+        return Math.abs(this.deployMotor.getPosition() - IntakeConstants.kIntakeDeployPosition) < IntakeConstants.kIntakeDeployTolerance;
+    }
+
+    public boolean isRetracted() {
+        return Math.abs(this.deployMotor.getPosition() - IntakeConstants.kIntakeRetractPosition) < IntakeConstants.kIntakeRetractTolerance;
+    }
+
+    public void startIntaking() {
         this.wheelMain.setVelocity(IntakeConstants.kIntakeVelocity);
+        // this.wheelMain.setDutyOut(1);
     }
 
     public void stopIntaking() {

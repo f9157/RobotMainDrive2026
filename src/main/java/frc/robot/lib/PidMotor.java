@@ -2,6 +2,8 @@ package frc.robot.lib;
 
 public interface PidMotor extends Motor {
 
+    public void apply(PidValues values);
+
     public void setPosition(double position);
 
     public double getPosition();

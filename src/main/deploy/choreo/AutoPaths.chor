@@ -1,0 +1,128 @@
+{
+ "name":"AutoPaths",
+ "version":2,
+ "type":"Swerve",
+ "variables":{
+  "expressions":{
+   "IntakeSpeed":{
+    "dimension":"LinVel",
+    "var":{
+     "exp":"1.5 m / s",
+     "val":1.5
+    }
+   },
+   "MaxAccel":{
+    "dimension":"LinAcc",
+    "var":{
+     "exp":"3 m / s ^ 2",
+     "val":3.0
+    }
+   }
+  },
+  "poses":{
+   "StartFeed":{
+    "x":{
+     "exp":"4.39 m",
+     "val":4.39
+    },
+    "y":{
+     "exp":"7.32 m",
+     "val":7.32
+    },
+    "heading":{
+     "exp":"0 rad",
+     "val":0.0
+    }
+   },
+   "StartShoot":{
+    "x":{
+     "exp":"3.7 m",
+     "val":3.7
+    },
+    "y":{
+     "exp":"4.9 m",
+     "val":4.9
+    },
+    "heading":{
+     "exp":"0 rad",
+     "val":0.0
+    }
+   }
+  }
+ },
+ "config":{
+  "frontLeft":{
+   "x":{
+    "exp":"11 in",
+    "val":0.2794
+   },
+   "y":{
+    "exp":"11 in",
+    "val":0.2794
+   }
+  },
+  "backLeft":{
+   "x":{
+    "exp":"-11 in",
+    "val":-0.2794
+   },
+   "y":{
+    "exp":"11 in",
+    "val":0.2794
+   }
+  },
+  "mass":{
+   "exp":"75 lbs",
+   "val":34.01942775
+  },
+  "inertia":{
+   "exp":"6 kg m ^ 2",
+   "val":6.0
+  },
+  "gearing":{
+   "exp":"12",
+   "val":12.0
+  },
+  "radius":{
+   "exp":"4 in",
+   "val":0.1016
+  },
+  "vmax":{
+   "exp":"6000 RPM",
+   "val":628.3185307179587
+  },
+  "tmax":{
+   "exp":"1.2 N * m",
+   "val":1.2
+  },
+  "cof":{
+   "exp":"0.7",
+   "val":0.7
+  },
+  "bumper":{
+   "front":{
+    "exp":"13 in",
+    "val":0.3302
+   },
+   "side":{
+    "exp":"13 in",
+    "val":0.3302
+   },
+   "back":{
+    "exp":"13 in",
+    "val":0.3302
+   }
+  },
+  "differentialTrackWidth":{
+   "exp":"22 in",
+   "val":0.5588
+  }
+ },
+ "generationFeatures":[],
+ "codegen":{
+  "root":null,
+  "genVars":true,
+  "genTrajData":true,
+  "useChoreoLib":true
+ }
+}
