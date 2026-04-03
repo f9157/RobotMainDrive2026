@@ -19,6 +19,10 @@ public class TalonSRXMotor implements Motor, MotorFollow {
         this.motor.setInverted(this.inverted);
     }
 
+    public TalonSRX getInner() {
+        return this.motor;
+    }
+
     public String getMotorType() {
         return "TalonSRX";
     }
@@ -42,6 +46,10 @@ public class TalonSRXMotor implements Motor, MotorFollow {
 
     public double getDutyOut() {
         return this.motor.getMotorOutputPercent();
+    }
+
+    public void setPosition(double ref) {
+        this.motor.set(TalonSRXControlMode.Position, ref);
     }
 
     public void follow(int otherCanId, boolean invert) {
