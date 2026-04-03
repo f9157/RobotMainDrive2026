@@ -25,8 +25,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
         Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelMain);
     
-
-        this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
+        // Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelFollow);
+        // this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);
         
         
 
@@ -52,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void startIntaking() {
         this.wheelMain.setVelocity(IntakeConstants.kIntakeVelocity);
+        // this.wheelMain.setDutyOut(1);
     }
 
     public void stopIntaking() {

@@ -8,7 +8,6 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -146,14 +145,14 @@ public final class Constants {
                 kBackRightLocation);
 
         // CAN IDs
-        public static final int kFrontLeftDriveCanId = 8;// !
+        public static final int kFrontLeftDriveCanId = 8; // !
         public static final int kFrontLeftTurnCanId = 4; // !
-        public static final int kFrontRightDriveCanId = 2;// !
-        public static final int kFrontRightTurnCanId = 6;// !
-        public static final int kBackLeftDriveCanId = 16;// !
-        public static final int kBackLeftTurnCanId = 14;// !
-        public static final int kBackRightDriveCanId = 10;// !
-        public static final int kBackRightTurnCanId = 12;// !
+        public static final int kFrontRightDriveCanId = 2; // !
+        public static final int kFrontRightTurnCanId = 6; // !
+        public static final int kBackLeftDriveCanId = 16; // !
+        public static final int kBackLeftTurnCanId = 14; // !
+        public static final int kBackRightDriveCanId = 10; // !
+        public static final int kBackRightTurnCanId = 12; // !
         public static final int kPigeonIMU = 9; // !
 
         // Absolute encoders
@@ -238,13 +237,13 @@ public final class Constants {
         public static final int kWheelMainMotorCanId = 21; // !
         public static final int kWheelFollowMotorCanId = 22; // !
 
-        public static final StaticPID WheelPID = new StaticPID(0, 0, 0, 0, 0, 0, 0);
+        public static final StaticPID WheelPID = new StaticPID(0.0002, 0, 0, 0, 0, 0, 0);
 
         public static final double kIntakeRetractPosition = 0;
 
         public static final double kIntakeDeployPosition = 0;
 
-        public static final double kIntakeVelocity = 10;
+        public static final double kIntakeVelocity = 6000;
 
         public static final double kIntakeDeployTolerance = 3;
 
