@@ -45,7 +45,7 @@ public class IO {
                 m_driverController.povRight()
                                 .onTrue(new AimTurret(RobotContainer.m_turret, -90));
 
-                m_driverController.povDown()
+                m_driverController.leftTrigger()
                                 .onTrue(new InstantCommand(RobotContainer.m_indexer::runIndexer, RobotContainer.m_indexer))
                                 .onFalse(new InstantCommand(RobotContainer.m_indexer::stopIndexer, RobotContainer.m_indexer));
 
