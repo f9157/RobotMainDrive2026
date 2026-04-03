@@ -21,26 +21,16 @@ public class FlywheelSubsystem extends SubsystemBase {
     public FlywheelSubsystem() {
 
 
-        this.main = new TalonFXSMotor(FlywheelConstants.kLeftMainFlywheelCanId, "FlywheelLeft");
+        this.main = new TalonFXSMotor(FlywheelConstants.kLeftMainFlywheelCanId, "FlywheelLeft", TalonFXSMotor.MotorType.getNeo());
 
 
-        SlotConfigs slot = new SlotConfigs();
-        
-        
+        this.main.apply(FlywheelConstants.FlywheelPID);
 
-        MotionMagicConfigs mmConfig = Constants.FlywheelConstants.FlywheelPID.applyTalon(slot);
-
-        var config = this.main.getInner().getConfigurator();
-        
-        config.apply(slot);
-        config.apply(mmConfig);
-
-        this.follower = new TalonFXSMotor(FlywheelConstants.kRightFollowFlywheelCanId, "FlywheelRight");
+        this.follower = new TalonFXSMotor(FlywheelConstants.kRightFollowFlywheelCanId, "FlywheelRight", TalonFXSMotor.MotorType.getNeo());
 
         this.follower.follow(FlywheelConstants.kLeftMainFlywheelCanId, true);
 
-        config.apply(slot);
-        config.apply(mmConfig);
+        this.follower.apply(FlywheelConstants.FlywheelPID);
     }
 
     public void setFlywheel(double rotationsPerSecond) {

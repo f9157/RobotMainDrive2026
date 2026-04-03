@@ -5,6 +5,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.lib.SparkMotor;
 import frc.robot.lib.TalonFXSMotor;
+import frc.robot.lib.TalonFXSMotor.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
     
@@ -17,13 +18,15 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
 
 
-        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId, "IntakeDeploy");
+        this.deployMotor = new TalonFXSMotor(IntakeConstants.kDeployMotorCanId, "IntakeDeploy", MotorType.getNeo());
+
+        this.deployMotor.apply(IntakeConstants.DeployPID);
 
         this.wheelMain = new SparkMotor(IntakeConstants.kWheelMainMotorCanId, "IntakeWheelMain", false);
 
         this.wheelFollow = new SparkMotor(IntakeConstants.kWheelFollowMotorCanId, "IntakeWheelFollow", false);
 
-        Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelMain);
+        this.wheelMain.apply(IntakeConstants.WheelPID);
     
         // Constants.IntakeConstants.WheelPID.applySparkMax(this.wheelFollow);
         // this.wheelFollow.follow(IntakeConstants.kWheelMainMotorCanId, false);

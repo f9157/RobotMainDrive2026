@@ -13,48 +13,14 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
+import frc.robot.lib.PidValues;
 import frc.robot.lib.SparkMotor;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 public final class Constants {
 
-    public static class StaticPID {
-        double kP;
-        double kI;
-        double kD;
-        double kV;
-        double kS;
-        double maxAccel;
-        double maxVel;
 
-        public StaticPID(double kP, double kI, double kD, double kV, double kS, double maxAccel, double maxVel) {
-            this.kP = kP;
-            this.kI = kI;
-            this.kD = kD;
-            this.kV = kV;
-            this.kS = kS;
-            this.maxAccel = maxAccel;
-            this.maxVel = maxVel;
-        }
-
-        public MotionMagicConfigs applyTalon(SlotConfigs slot) {
-            slot.kV = this.kV;
-            slot.kP = this.kP;
-            slot.kI = this.kI;
-            slot.kD = this.kD;
-            slot.kS = this.kS;
-            return new MotionMagicConfigs().withMotionMagicAcceleration(maxAccel).withMotionMagicCruiseVelocity(maxVel);
-        }
-
-        public void applySparkMax(SparkMotor controller) {
-            ClosedLoopConfig pidConfig = new ClosedLoopConfig().pid(this.kP, this.kI, this.kD);
-            SparkMaxConfig config = new SparkMaxConfig();
-            config.apply(pidConfig);
-            controller.getInner().configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        }
-
-    }
 
     public static final class IOConstants {
         public static final int kDriverControllerPort = 0;
@@ -224,7 +190,7 @@ public final class Constants {
 
         public static final int kRightFollowFlywheelCanId = 34; // !
 
-        public static final StaticPID FlywheelPID = new StaticPID(0, 0, 0, 0.13, 0.2, 200, 100);
+        public static final PidValues FlywheelPID = new PidValues(0, 0, 0, 0.13, 0.2, 200, 100);
 
         public static final double kFlywheelHubTolerance = 5;
     }
@@ -232,12 +198,12 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int kDeployMotorCanId = 20;
 
-        public static final StaticPID DeployPID = new StaticPID(0, 0, 0, 0.13, 0.4, 30, 30);
+        public static final PidValues DeployPID = new PidValues(0, 0, 0, 0.13, 0.4, 30, 30);
 
         public static final int kWheelMainMotorCanId = 21; // !
         public static final int kWheelFollowMotorCanId = 22; // !
 
-        public static final StaticPID WheelPID = new StaticPID(0.0002, 0, 0, 0, 0, 0, 0);
+        public static final PidValues WheelPID = new PidValues(0.0002, 0, 0, 0, 0, 0, 0);
 
         public static final double kIntakeRetractPosition = 0;
 
@@ -258,7 +224,7 @@ public final class Constants {
     public static final class TurretConstants {
         public static final int kTurretCanId = 51; // !
         public static final double kTurretGearRatio = 10; // !
-        public static final StaticPID turretPID = new StaticPID(0, 0, 0, 0.13, 0, 0, 0);
+        public static final PidValues turretPID = new PidValues(0, 0, 0, 0.13, 0, 0, 0);
         public static final double kTurretStaticTolerance = 3;
     }
 }
