@@ -4,6 +4,13 @@
  "type":"Swerve",
  "variables":{
   "expressions":{
+   "IntakeSpeed":{
+    "dimension":"LinVel",
+    "var":{
+     "exp":"1.5 m / s",
+     "val":1.5
+    }
+   },
    "MaxAccel":{
     "dimension":"LinAcc",
     "var":{

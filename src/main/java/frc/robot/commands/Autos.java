@@ -52,7 +52,7 @@ public final class Autos {
       IndexerSubsystem indexer, Targeting targeting, IntakeSubsystem intake) {
     AutoRoutine routine = this.factory.newRoutine("LeftFullFeed");
 
-    AutoTrajectory rabidPath = full ? this.FullFeedPath(routine) : this.FullFeedPath(routine);
+    AutoTrajectory rabidPath = full ? this.FullFeedPath(routine) : this.HalfFeedPath(routine);
 
     this.first(routine, rabidPath);
 
@@ -68,7 +68,7 @@ public final class Autos {
 
     AutoTrajectory shootStorage = this.shootAlianceStorage(routine);
 
-    AutoTrajectory rabidPath = full ? this.FullFeedPath(routine) : this.FullFeedPath(routine);
+    AutoTrajectory rabidPath = full ? this.FullFeedPath(routine) : this.HalfFeedPath(routine);
 
     this.first(routine, shootStorage);
 
