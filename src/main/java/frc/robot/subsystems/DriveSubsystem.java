@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -54,42 +56,42 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightAbsOffset, "BR");
 
   SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-    DriveConstants.kFrontLeftLocation,
-    DriveConstants.kFrontRightLocation,
-    DriveConstants.kBackLeftLocation,
-    DriveConstants.kBackRightLocation
-  );
+      DriveConstants.kFrontLeftLocation,
+      DriveConstants.kFrontRightLocation,
+      DriveConstants.kBackLeftLocation,
+      DriveConstants.kBackRightLocation);
 
   private final Pigeon2 m_gyro = new Pigeon2(DriveConstants.kPigeonIMU);
 
+  private final PIDController xController = new PIDController(0.4, 0, 0);
+  private final PIDController yController = new PIDController(0.4, 0, 0);
+  private PIDController headingController = new PIDController(0.5, 0, 0);
 
   public SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(kinematics,
-  getGyroHeading(), this.getModulePositions(),
-   Pose2d.kZero
-  );
-
+      getGyroHeading(), this.getModulePositions(),
+      Pose2d.kZero);
 
   public DriveSubsystem() {
+    headingController.enableContinuousInput(-Math.PI, Math.PI);
     zeroHeading();
   }
 
   public SwerveModulePosition[] getModulePositions() {
-      SwerveModulePosition[] l = {
+    return new SwerveModulePosition[] {
         m_frontLeft.getModulePosition(),
         m_frontRight.getModulePosition(),
         m_backLeft.getModulePosition(),
         m_backRight.getModulePosition()
-      };
-      return l;
+    };
   }
 
   public SwerveModuleState[] getSwerveModuleStates() {
-      return new SwerveModuleState[] {
-          m_frontLeft.getModuleState(),
-          m_frontRight.getModuleState(),
-          m_backLeft.getModuleState(),
-          m_backRight.getModuleState()
-      };
+    return new SwerveModuleState[] {
+        m_frontLeft.getModuleState(),
+        m_frontRight.getModuleState(),
+        m_backLeft.getModuleState(),
+        m_backRight.getModuleState()
+    };
   }
 
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
@@ -100,7 +102,10 @@ public class DriveSubsystem extends SubsystemBase {
             rot,
             getHeading())
         : new ChassisSpeeds(xSpeed, ySpeed, rot);
+      this.drive(chassisSpeeds);
+  }
 
+  public void drive(ChassisSpeeds chassisSpeeds) {
     chassisSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
 
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
@@ -113,6 +118,20 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(states[1]);
     m_backLeft.setDesiredState(states[2]);
     m_backRight.setDesiredState(states[3]);
+  }
+
+  public void followTrajectory(SwerveSample sample) {
+    // Get the current pose of the robot
+    Pose2d pose = this.getPose2d();
+
+    // Generate the next speeds for the robot
+    ChassisSpeeds speeds = new ChassisSpeeds(
+        sample.vx + xController.calculate(pose.getX(), sample.x),
+        sample.vy + yController.calculate(pose.getY(), sample.y),
+        sample.omega + headingController.calculate(pose.getRotation().getRadians(), sample.heading));
+
+    // Apply the generated speeds
+    this.drive(speeds);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -129,6 +148,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void zeroHeading() {
     this.odometry.resetRotation(Rotation2d.kZero);
+  }
+
+  public void resetOdometry(Pose2d newPose) {
+    this.odometry.resetPosition(getGyroHeading(), getModulePositions(), newPose);
   }
 
   public void stopModules() {
